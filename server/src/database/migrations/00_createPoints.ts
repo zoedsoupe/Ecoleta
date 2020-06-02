@@ -3,7 +3,7 @@ import Knex from "knex";
 export const up = async (knex: Knex) => {
   return knex.schema.createTable("points", (table) => {
     table.increments("id").primary();
-    table.string("image").notNullable();
+    table.string("img").notNullable();
     table.string("name").notNullable();
     table.string("email").notNullable();
     table.string("wpp").notNullable();
