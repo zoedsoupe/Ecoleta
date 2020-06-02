@@ -8,7 +8,7 @@ export const up = async (knex: Knex) => {
     table.string("email").notNullable();
     table.string("wpp").notNullable();
     table.decimal("lat").notNullable();
-    table.decimal("log").notNullable();
+    table.decimal("long").notNullable();
     table.string("city").notNullable();
     table.string("uf", 2).notNullable();
   });
