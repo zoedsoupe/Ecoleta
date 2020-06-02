@@ -1,6 +1,7 @@
 import { Request, Response } from "express";
 import knex from "../database/connection";
 class ItemsController {
+  //* INDEX Route - list all items
   index = async (req: Request, res: Response) => {
     const items = await knex("items").select("*");
 
