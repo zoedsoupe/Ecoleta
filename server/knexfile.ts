@@ -1,5 +1,7 @@
 import path from "path";
 
+//! Knex do not support ES6 modules
+//* knex config file to exec the migrations and seed to the database
 module.exports = {
   client: "sqlite3",
   connection: {
