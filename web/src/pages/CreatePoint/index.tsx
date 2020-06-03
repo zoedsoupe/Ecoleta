@@ -143,7 +143,7 @@ const CreatePoint = () => {
 
     await api.post("points", data);
 
-    history.push("/")
+    history.push("/");
   }
 
   return (
@@ -193,6 +193,7 @@ const CreatePoint = () => {
                 name="wpp"
                 id="wpp"
                 onChange={handleInputChange}
+                pattern="[0-9]{3}-[0-9]{2}-[0-9]{3}"
               />
             </div>
           </div>
