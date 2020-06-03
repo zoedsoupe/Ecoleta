@@ -61,26 +61,30 @@ class PointsControler {
     };
 
     //* save point to the database
-    const insertedIds = await trx("points").insert(point);
+    try {
+      const insertedIds = await trx("points").insert(point);
 
-    const pointId = insertedIds[0];
+      const pointId = insertedIds[0];
 
-    const pointItems = items.map((item_id: number) => {
-      return {
-        item_id,
-        point_id: pointId,
-      };
-    });
+      const pointItems = items.map((item_id: number) => {
+        return {
+          item_id,
+          point_id: pointId,
+        };
+      });
 
-    //* save the point_id and [item_id] to the point_items table
-    await trx("point_items").insert(pointItems);
+      //* save the point_id and [item_id] to the point_items table
+      await trx("point_items").insert(pointItems);
 
-    await trx.commit();
+      await trx.commit();
 
-    return res.json({
-      id: pointId,
-      ...point,
-    });
+      return res.json({
+        id: pointId,
+        ...point,
+      });
+    } catch (err) {
+      console.log(err.message);
+    }
   };
 }
 
