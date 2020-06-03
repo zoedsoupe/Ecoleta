@@ -1,4 +1,4 @@
-import React, { useState, useEffect, ChangeEvent } from "react";
+import React, { useState, useEffect, ChangeEvent, FormEvent } from "react";
 import { FiArrowLeft } from "react-icons/fi";
 import { Link } from "react-router-dom";
 import { Map, TileLayer, Marker } from "react-leaflet";
@@ -120,6 +120,30 @@ const CreatePoint = () => {
     } else setSelectedItems([...selectedItems, id]);
   }
 
+  async function handleSubmit(e: FormEvent) {
+    e.preventDefault();
+    const { name, email, wpp } = formData;
+    const uf = selectedUf;
+    const city = selectedCity;
+    const [latitude, longitude] = selectedPosition;
+    const items = selectedItems;
+
+    const data = {
+      name,
+      email,
+      wpp,
+      uf,
+      city,
+      latitude,
+      longitude,
+      items,
+    };
+
+    await api.post("points", data);
+
+    
+  }
+
   return (
     <div id="page-create-point">
       <header>
@@ -130,7 +154,7 @@ const CreatePoint = () => {
         </Link>
       </header>
 
-      <form>
+      <form onSubmit={handleSubmit}>
         <h1>
           Cadastro do <br /> ponto de coleta
         </h1>
