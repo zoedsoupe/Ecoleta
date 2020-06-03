@@ -1,6 +1,6 @@
 import React, { useState, useEffect, ChangeEvent, FormEvent } from "react";
 import { FiArrowLeft } from "react-icons/fi";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import { Map, TileLayer, Marker } from "react-leaflet";
 import { LeafletMouseEvent } from "leaflet";
 import axios from "axios";
@@ -48,6 +48,8 @@ const CreatePoint = () => {
     0,
     0,
   ]);
+
+  const history = useHistory();
 
   useEffect(() => {
     api.get("items").then((res) => setItems(res.data));
@@ -141,7 +143,7 @@ const CreatePoint = () => {
 
     await api.post("points", data);
 
-    
+    history.push("/")
   }
 
   return (
