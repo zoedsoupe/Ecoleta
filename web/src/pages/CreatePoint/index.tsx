@@ -27,8 +27,10 @@ interface ibgeCityResponse {
 const CreatePoint = () => {
   const [items, setItems] = useState<Item[]>([]);
   const [ufs, setUfs] = useState<string[]>([]);
-  const [selectedUf, setSelectedUf] = useState("0");
   const [cities, setCities] = useState<string[]>([]);
+
+  const [selectedUf, setSelectedUf] = useState("0");
+  const [selectedCity, setSelectedCity] = useState("0");
 
   useEffect(() => {
     api.get("items").then((res) => setItems(res.data));
@@ -65,6 +67,12 @@ const CreatePoint = () => {
     const uf = e.target.value;
 
     setSelectedUf(uf);
+  }
+
+  function handleSelectedCity(e: ChangeEvent<HTMLSelectElement>) {
+    const city = e.target.value;
+
+    setSelectedCity(city);
   }
 
   return (
@@ -138,7 +146,12 @@ const CreatePoint = () => {
 
             <div className="field">
               <label htmlFor="city">Cidade</label>
-              <select name="city" id="city">
+              <select
+                name="city"
+                id="city"
+                value={selectedCity}
+                onChange={handleSelectedCity}
+              >
                 <option value="0">Selecione uma cidade</option>
                 {cities.map((city) => (
                   <option key={city} value={city}>
