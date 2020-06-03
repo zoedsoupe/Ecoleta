@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { FiArrowLeft } from "react-icons/fi";
 import { Link } from "react-router-dom";
 import { Map, TileLayer, Marker } from "react-leaflet";
-//import axios from "axios"
+import axios from "axios";
 
 import "./CreatePoint.css";
 
@@ -16,14 +16,28 @@ interface Item {
   image_url: string;
 }
 
+interface ibgeUfResponse {
+  sigla: string;
+}
+
 const CreatePoint = () => {
   const [items, setItems] = useState<Item[]>([]);
+  const [ufs, setUfs] = useState<String[]>([]);
 
   useEffect(() => {
     api.get("items").then((res) => setItems(res.data));
   }, []);
 
-
+  useEffect(() => {
+    axios
+      .get<ibgeUfResponse[]>(
+        "https://servicodados.ibge.gov.br/api/v1/localidades/estados"
+      )
+      .then((res) => {
+        const ufInitials = res.data.map((uf) => uf.sigla);
+        setUfs(ufInitials);
+      });
+  }, []);
 
   return (
     <div id="page-create-point">
