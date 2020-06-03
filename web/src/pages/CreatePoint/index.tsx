@@ -47,12 +47,30 @@ const CreatePoint = () => {
         <fieldset>
           <legend>
             <h2>Endereço</h2>
+            <span>Selecione o endereço no mapa</span>
           </legend>
+
+          <div className="field-group">
+            <div className="field">
+              <label htmlFor="uf">Estado (UF)</label>
+              <select name="uf" id="uf">
+                <option value="0">Selecione uma UF</option>
+              </select>
+            </div>
+
+            <div className="field">
+              <label htmlFor="city">Cidade</label>
+              <select name="city" id="city">
+                <option value="0">Selecione uma cidade</option>
+              </select>
+            </div>
+          </div>
         </fieldset>
 
         <fieldset>
           <legend>
             <h2>Itens de coleta</h2>
+            <span>Selecione um ou mais itens abaixo</span>
           </legend>
         </fieldset>
       </form>
