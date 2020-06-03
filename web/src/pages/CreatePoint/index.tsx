@@ -35,6 +35,12 @@ const CreatePoint = () => {
     0,
   ]);
 
+  const [formData, setFormData] = useState({
+    name: "",
+    email: "",
+    wpp: "",
+  });
+
   const [selectedUf, setSelectedUf] = useState("0");
   const [selectedCity, setSelectedCity] = useState("0");
   const [selectedPosition, setSelectedPosition] = useState<[number, number]>([
@@ -97,6 +103,12 @@ const CreatePoint = () => {
     setSelectedPosition([e.latlng.lat, e.latlng.lng]);
   }
 
+  function handleInputChange(e: ChangeEvent<HTMLInputElement>) {
+    const { name, value } = e.target;
+
+    setFormData({ ...formData, [name]: value });
+  }
+
   return (
     <div id="page-create-point">
       <header>
@@ -119,17 +131,32 @@ const CreatePoint = () => {
 
           <div className="field">
             <label htmlFor="name">Nome da ententidade</label>
-            <input type="text" name="name" id="name" />
+            <input
+              type="text"
+              name="name"
+              id="name"
+              onChange={handleInputChange}
+            />
           </div>
 
           <div className="field-group">
             <div className="field">
               <label htmlFor="email">Email</label>
-              <input type="email" name="email" id="email" />
+              <input
+                type="email"
+                name="email"
+                id="email"
+                onChange={handleInputChange}
+              />
             </div>
             <div className="field">
               <label htmlFor="wpp">Whatsapp</label>
-              <input type="tel" name="wpp" id="wpp" />
+              <input
+                type="tel"
+                name="wpp"
+                id="wpp"
+                onChange={handleInputChange}
+              />
             </div>
           </div>
         </fieldset>
@@ -140,11 +167,7 @@ const CreatePoint = () => {
             <span>Selecione o endereço no mapa</span>
           </legend>
 
-          <Map
-            center={initialPosition}
-            zoom={15}
-            onclick={handleMapClick}
-          >
+          <Map center={initialPosition} zoom={15} onclick={handleMapClick}>
             <TileLayer
               attribution='&amp;copy <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
               url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
