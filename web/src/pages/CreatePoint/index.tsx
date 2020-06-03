@@ -72,7 +72,36 @@ const CreatePoint = () => {
             <h2>Itens de coleta</h2>
             <span>Selecione um ou mais itens abaixo</span>
           </legend>
+
+          <ul className="items-grid">
+            <li>
+              <img src="" alt="" />
+              <span></span>
+            </li>
+            <li>
+              <img src="" alt="" />
+              <span></span>
+            </li>
+            <li>
+              <img src="" alt="" />
+              <span></span>
+            </li>
+            <li>
+              <img src="" alt="" />
+              <span></span>
+            </li>
+            <li>
+              <img src="" alt="" />
+              <span></span>
+            </li>
+            <li>
+              <img src="" alt="" />
+              <span></span>
+            </li>
+          </ul>
         </fieldset>
+
+        <button type="submit">Cadastrar ponto de coleta</button>
       </form>
     </div>
   );
