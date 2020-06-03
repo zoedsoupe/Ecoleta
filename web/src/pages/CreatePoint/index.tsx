@@ -1,8 +1,14 @@
+//* types, react hooks
 import React, { useState, useEffect, ChangeEvent, FormEvent } from "react";
+//* icons
 import { FiArrowLeft } from "react-icons/fi";
+//* router and navigation
 import { Link, useHistory } from "react-router-dom";
+//* map
 import { Map, TileLayer, Marker } from "react-leaflet";
+//* map event type
 import { LeafletMouseEvent } from "leaflet";
+//* consume apis
 import axios from "axios";
 
 import "./CreatePoint.css";
@@ -11,36 +17,45 @@ import api from "../../services/api";
 
 import logo from "../../assets/logo.svg";
 
+//* define types to Items
 interface Item {
   id: number;
   title: string;
   image_url: string;
 }
 
+//* type to uf
 interface ibgeUfResponse {
   sigla: string;
 }
 
+//* type to city
 interface ibgeCityResponse {
   nome: string;
 }
 
 const CreatePoint = () => {
+  //* variable to receive items
   const [items, setItems] = useState<Item[]>([]);
+  //* variable to receive ufs
   const [ufs, setUfs] = useState<string[]>([]);
+  //* variable to receive cities
   const [cities, setCities] = useState<string[]>([]);
 
+  //* variable to receive the map initial position
   const [initialPosition, setInitialPosition] = useState<[number, number]>([
     0,
     0,
   ]);
 
+  //* variable to receive all form data
   const [formData, setFormData] = useState({
     name: "",
     email: "",
     wpp: "",
   });
 
+  //* handle the selects for uf, city, map position and items
   const [selectedUf, setSelectedUf] = useState("0");
   const [selectedCity, setSelectedCity] = useState("0");
   const [selectedItems, setSelectedItems] = useState<number[]>([]);
@@ -51,10 +66,14 @@ const CreatePoint = () => {
 
   const history = useHistory();
 
+  //* ..., []) === run once when page loads
+
+  //* get all items from api and stores on items const
   useEffect(() => {
     api.get("items").then((res) => setItems(res.data));
   }, []);
 
+  //* get all ufs from ibge api and stores on ufs const
   useEffect(() => {
     axios
       .get<ibgeUfResponse[]>(
@@ -67,6 +86,7 @@ const CreatePoint = () => {
       });
   }, []);
 
+  //* get all cities from ibge api and stores on cities const and executes every time that selected UF changes
   useEffect(() => {
     if (selectedUf !== "0") {
       axios
@@ -82,6 +102,7 @@ const CreatePoint = () => {
     return;
   }, [selectedUf]);
 
+  //* get the actual user geolocation from browser
   useEffect(() => {
     navigator.geolocation.getCurrentPosition((position) => {
       const { latitude, longitude } = position.coords;
@@ -90,28 +111,34 @@ const CreatePoint = () => {
     });
   }, []);
 
+  //* handle the selected uf
   function handleSelectedUf(e: ChangeEvent<HTMLSelectElement>) {
     const uf = e.target.value;
 
     setSelectedUf(uf);
   }
 
+  //* handle the selected city
   function handleSelectedCity(e: ChangeEvent<HTMLSelectElement>) {
     const city = e.target.value;
 
     setSelectedCity(city);
   }
 
+  //* handle the selected position to place a marker
   function handleMapClick(e: LeafletMouseEvent) {
     setSelectedPosition([e.latlng.lat, e.latlng.lng]);
   }
 
+  //* store all the form data
   function handleInputChange(e: ChangeEvent<HTMLInputElement>) {
     const { name, value } = e.target;
 
+    //* copy all the existing data and add new
     setFormData({ ...formData, [name]: value });
   }
 
+  //* handle the selected or disselected items
   function handleSelectedItems(id: number) {
     const alreadySelected = selectedItems.findIndex((item) => item === id);
 
@@ -122,6 +149,7 @@ const CreatePoint = () => {
     } else setSelectedItems([...selectedItems, id]);
   }
 
+  //* submit all data to the api and create a new point
   async function handleSubmit(e: FormEvent) {
     e.preventDefault();
     const { name, email, wpp } = formData;
@@ -154,6 +182,7 @@ const CreatePoint = () => {
     <div id="page-create-point">
       <header>
         <img src={logo} alt="Ecoleta" />
+        //* replace the "a" tag
         <Link to="/">
           <FiArrowLeft />
           Voltar para home
@@ -208,6 +237,7 @@ const CreatePoint = () => {
             <span>Selecione o endereço no mapa</span>
           </legend>
 
+          //* see leaflet documentation
           <Map center={initialPosition} zoom={15} onclick={handleMapClick}>
             <TileLayer
               attribution='&amp;copy <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
