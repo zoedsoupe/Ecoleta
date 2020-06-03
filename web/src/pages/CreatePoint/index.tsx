@@ -127,7 +127,7 @@ const CreatePoint = () => {
     const { name, email, wpp } = formData;
     const uf = selectedUf;
     const city = selectedCity;
-    const [latitude, longitude] = selectedPosition;
+    const [lat, long] = selectedPosition;
     const items = selectedItems;
 
     const data = {
@@ -136,14 +136,18 @@ const CreatePoint = () => {
       wpp,
       uf,
       city,
-      latitude,
-      longitude,
+      lat,
+      long,
       items,
     };
 
-    await api.post("points", data);
+    try {
+      await api.post("points", data);
 
-    history.push("/");
+      history.push("/");
+    } catch (err) {
+      console.log(err.message)
+    }
   }
 
   return (
@@ -193,7 +197,6 @@ const CreatePoint = () => {
                 name="wpp"
                 id="wpp"
                 onChange={handleInputChange}
-                pattern="[0-9]{3}-[0-9]{2}-[0-9]{3}"
               />
             </div>
           </div>
