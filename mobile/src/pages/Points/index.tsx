@@ -8,6 +8,7 @@ import {
   Image,
   SafeAreaView,
   Alert,
+  Dimensions,
 } from "react-native";
 import { Feather as Icon } from "@expo/vector-icons";
 import { useNavigation, useRoute } from "@react-navigation/native";
@@ -36,7 +37,7 @@ interface PointParams {
   city: string;
 }
 
-const Points = () => {
+const Points: React.FC = () => {
   const navigation = useNavigation();
 
   const route = useRoute();
@@ -46,6 +47,8 @@ const Points = () => {
   const [items, setItems] = useState<Item[]>([]);
   const [points, setPoints] = useState<Point[]>([]);
   const [selectedItems, setSelectedItems] = useState<number[]>([]);
+
+  const [mapLayout, setMapLayout] = useState(false);
 
   const [initialPosition, setInitialPosition] = useState<[number, number]>([
     0,
@@ -112,6 +115,10 @@ const Points = () => {
     } else setSelectedItems([...selectedItems, id]);
   }
 
+  function handleMapLayout() {
+    setMapLayout(true);
+  }
+
   return (
     <SafeAreaView>
       <View style={styles.container}>
@@ -128,6 +135,7 @@ const Points = () => {
           {initialPosition[0] !== 0 && (
             <MapView
               style={styles.map}
+              onMapReady={handleMapLayout}
               initialRegion={{
                 latitude: initialPosition[0],
                 longitude: initialPosition[1],
@@ -135,27 +143,28 @@ const Points = () => {
                 longitudeDelta: 0.014,
               }}
             >
-              {points.map((point) => (
-                <Marker
-                  key={String(point.id)}
-                  onPress={() => handleNavigationToDetail(point.id)}
-                  style={styles.mapMarker}
-                  coordinate={{
-                    latitude: point.lat,
-                    longitude: point.long,
-                  }}
-                >
-                  <View style={styles.mapMarkerContainer}>
-                    <Image
-                      source={{
-                        uri: point.image,
-                      }}
-                      style={styles.mapMarkerImage}
-                    />
-                    <Text style={styles.mapMarkerTitle}>{point.name}</Text>
-                  </View>
-                </Marker>
-              ))}
+              {mapLayout &&
+                points.map((point) => (
+                  <Marker
+                    key={String(point.id)}
+                    onPress={() => handleNavigationToDetail(point.id)}
+                    style={styles.mapMarker}
+                    coordinate={{
+                      latitude: point.lat,
+                      longitude: point.long,
+                    }}
+                  >
+                    <View style={styles.mapMarkerContainer}>
+                      <Image
+                        source={{
+                          uri: point.image,
+                        }}
+                        style={styles.mapMarkerImage}
+                      />
+                      <Text style={styles.mapMarkerTitle}>{point.name}</Text>
+                    </View>
+                  </Marker>
+                ))}
             </MapView>
           )}
         </View>
@@ -166,13 +175,12 @@ const Points = () => {
         contentContainerStyle={{ paddingHorizontal: 20 }}
       >
         {items.map((item) => (
-          <View style={styles.itemsContainer}>
+          <View style={styles.itemsContainer} key={String(item.id)}>
             <TouchableOpacity
               style={[
                 styles.item,
                 selectedItems.includes(item.id) ? styles.selectedItem : {},
               ]}
-              key={String(item.id)}
               onPress={() => handleSelectedItems(item.id)}
               activeOpacity={0.6}
             >
@@ -217,6 +225,7 @@ const styles = StyleSheet.create({
   map: {
     width: "100%",
     height: "100%",
+    flex: 1,
   },
 
   mapMarker: {
