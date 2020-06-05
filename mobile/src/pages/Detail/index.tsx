@@ -22,6 +22,7 @@ interface RouteParams {
 interface Data {
   point: {
     img: string;
+    image_url: string;
     name: string;
     email: string;
     wpp: string;
@@ -72,7 +73,7 @@ const Detail = () => {
         <Image
           style={styles.pointImage}
           source={{
-            uri: data.point.img,
+            uri: data.point.image_url,
           }}
         />
         <Text style={styles.pointName}>{data.point.name}</Text>

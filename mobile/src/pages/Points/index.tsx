@@ -27,6 +27,7 @@ interface Point {
   id: number;
   name: string;
   img: string;
+  image_url: string;
   lat: number;
   long: number;
 }
@@ -140,25 +141,26 @@ const Points: React.FC = () => {
                 longitudeDelta: 0.014,
               }}
             >
-              {mapState && points.map((point) => (
-                <Marker
-                  key={String(point.id)}
-                  style={styles.mapMarker}
-                  onPress={() => handleNavigateToDetail(point.id)}
-                  coordinate={{
-                    latitude: point.lat,
-                    longitude: point.long,
-                  }}
-                >
-                  <View style={styles.mapMarkerContainer}>
-                    <Image
-                      style={styles.mapMarkerImage}
-                      source={{ uri: point.img }}
-                    />
-                    <Text style={styles.mapMarkerTitle}>{point.name}</Text>
-                  </View>
-                </Marker>
-              ))}
+              {mapState &&
+                points.map((point) => (
+                  <Marker
+                    key={String(point.id)}
+                    style={styles.mapMarker}
+                    onPress={() => handleNavigateToDetail(point.id)}
+                    coordinate={{
+                      latitude: point.lat,
+                      longitude: point.long,
+                    }}
+                  >
+                    <View style={styles.mapMarkerContainer}>
+                      <Image
+                        style={styles.mapMarkerImage}
+                        source={{ uri: point.image_url }}
+                      />
+                      <Text style={styles.mapMarkerTitle}>{point.name}</Text>
+                    </View>
+                  </Marker>
+                ))}
             </MapView>
           )}
         </View>
