@@ -20,7 +20,14 @@ class PointsControler {
       .distinct()
       .select("points.*");
 
-    return res.json(points);
+    const serializedPoints = points.map((point) => {
+      return {
+        ...point,
+        image_url: `http://192.168.0.105:3333/uploads/${point.img}`,
+      };
+    });
+
+    return res.json(serializedPoints);
   };
 
   //* SHOW route - show specific point information
@@ -38,7 +45,12 @@ class PointsControler {
       .where("point_items.point_id", id)
       .select("items.title");
 
-    return res.json({ point, items });
+    const serializedPoint = {
+      ...point,
+      image_url: `http://192.168.0.105:3333/uploads/${point.img}`,
+    };
+
+    return res.json({ point: serializedPoint, items });
   };
 
   //* CREATE route - add a new point to the database
