@@ -23,7 +23,7 @@ const upload = multer(multerConfig);
 router.get("/items", itemsController.index);
 
 //* points CREATE
-router.post("/points", upload.single("image"), pointController.create);
+router.post("/points", upload.single("img"), pointController.create);
 
 //* points INDEX with query
 router.get("/points", pointController.index);
