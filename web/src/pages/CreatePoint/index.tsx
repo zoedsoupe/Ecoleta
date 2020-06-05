@@ -11,6 +11,8 @@ import { LeafletMouseEvent } from "leaflet";
 //* consume apis
 import axios from "axios";
 
+import Dropzone from "../../components/Dropzone";
+
 import "./CreatePoint.css";
 
 import api from "../../services/api";
@@ -174,7 +176,7 @@ const CreatePoint = () => {
 
       history.push("/");
     } catch (err) {
-      console.log(err.message)
+      console.log(err.message);
     }
   }
 
@@ -193,6 +195,8 @@ const CreatePoint = () => {
         <h1>
           Cadastro do <br /> ponto de coleta
         </h1>
+
+        <Dropzone />
 
         <fieldset>
           <legend>
@@ -236,7 +240,6 @@ const CreatePoint = () => {
             <h2>Endereço</h2>
             <span>Selecione o endereço no mapa</span>
           </legend>
-
           //* see leaflet documentation
           <Map center={initialPosition} zoom={15} onclick={handleMapClick}>
             <TileLayer
@@ -245,7 +248,6 @@ const CreatePoint = () => {
             />
             <Marker position={selectedPosition} />
           </Map>
-
           <div className="field-group">
             <div className="field">
               <label htmlFor="uf">Estado (UF)</label>
