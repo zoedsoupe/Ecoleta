@@ -44,6 +44,8 @@ const CreatePoint = () => {
   //* variable to receive cities
   const [cities, setCities] = useState<string[]>([]);
 
+  const [selectedFile, setSelectedFile] = useState<File>();
+
   //* variable to receive the map initial position
   const [initialPosition, setInitialPosition] = useState<[number, number]>([
     0,
@@ -154,22 +156,25 @@ const CreatePoint = () => {
   //* submit all data to the api and create a new point
   async function handleSubmit(e: FormEvent) {
     e.preventDefault();
+
     const { name, email, wpp } = formData;
     const uf = selectedUf;
     const city = selectedCity;
     const [lat, long] = selectedPosition;
     const items = selectedItems;
 
-    const data = {
-      name,
-      email,
-      wpp,
-      uf,
-      city,
-      lat,
-      long,
-      items,
-    };
+    const data = new FormData();
+
+    data.append("name", name);
+    data.append("email", email);
+    data.append("wpp", wpp);
+    data.append("uf", uf);
+    data.append("city", city);
+    data.append("lat", String(lat));
+    data.append("long", String(long));
+    data.append("items", items.join(","));
+    
+    if (selectedFile) data.append("img", selectedFile);
 
     try {
       await api.post("points", data);
@@ -196,7 +201,7 @@ const CreatePoint = () => {
           Cadastro do <br /> ponto de coleta
         </h1>
 
-        <Dropzone />
+        <Dropzone onFileUpload={setSelectedFile} />
 
         <fieldset>
           <legend>
