@@ -1,5 +1,6 @@
 import express from "express";
 import multer from "multer";
+import path from "path";
 import { celebrate, Joi } from "celebrate";
 
 import multerConfig from "./config/multer";
@@ -19,6 +20,10 @@ const upload = multer(multerConfig);
 //* ==========
 //*   ROUTES
 //* ==========
+
+router.get("/*", (req, res) => {
+  res.sendFile(path.join(__dirname, "build", "index.html"));
+});
 
 //* items INDEX
 router.get("/items", itemsController.index);

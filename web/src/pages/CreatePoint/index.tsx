@@ -173,7 +173,7 @@ const CreatePoint = () => {
     data.append("lat", String(lat));
     data.append("long", String(long));
     data.append("items", items.join(","));
-    
+
     if (selectedFile) data.append("img", selectedFile);
 
     try {
@@ -189,7 +189,6 @@ const CreatePoint = () => {
     <div id="page-create-point">
       <header>
         <img src={logo} alt="Ecoleta" />
-        <!-- replaces the "a" tag -->
         <Link to="/">
           <FiArrowLeft />
           Voltar para home
