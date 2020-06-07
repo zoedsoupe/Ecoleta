@@ -1,6 +1,5 @@
 import React, { useCallback, useState } from "react";
 import { useDropzone } from "react-dropzone";
-import { FiUpload } from "react-icons/fi";
 
 import "./styles.css";
 
@@ -35,15 +34,9 @@ const Dropzone: React.FC<Props> = ({ onFileUpload }) => {
       {selectedFileUrl ? (
         <img src={selectedFileUrl} alt="Thumbnail do ponto de coleta" />
       ) : isDragActive ? (
-        <React.Fragment>
-          <FiUpload />
-          <p>Solte a imagem aqui ...</p>
-        </React.Fragment>
+        <p>Solte a imagem aqui ...</p>
       ) : (
-        <React.Fragment>
-          <FiUpload />
-          <p>Arraste e solte o arquivo aqui ou clique para procurá-lo</p>
-        </React.Fragment>
+        <p>Arraste e solte o arquivo aqui ou clique para procurá-lo</p>
       )}
     </div>
   );

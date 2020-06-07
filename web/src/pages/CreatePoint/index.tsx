@@ -189,7 +189,7 @@ const CreatePoint = () => {
     <div id="page-create-point">
       <header>
         <img src={logo} alt="Ecoleta" />
-        //* replace the "a" tag
+        <!-- replaces the "a" tag -->
         <Link to="/">
           <FiArrowLeft />
           Voltar para home
