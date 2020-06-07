@@ -15,6 +15,7 @@ app.use(express.json());
 
 //* serve staticlly the upload folder
 app.use("/uploads", express.static(path.resolve(__dirname, "..", "uploads")));
+app.use("/build", express.static(path.resolve(__dirname, "..", "build")));
 
 app.use(routes);
 
