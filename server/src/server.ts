@@ -20,4 +20,6 @@ app.use(routes);
 
 app.use(errors());
 
-app.listen(3333, () => console.log("Ecoleta started!"));
+app.listen(parseInt(`${process.env.PORT}`), process.env.IP!, () =>
+  console.log("Ecoleta started!")
+);
