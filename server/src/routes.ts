@@ -21,10 +21,6 @@ const upload = multer(multerConfig);
 //*   ROUTES
 //* ==========
 
-router.get("/*", (req, res) => {
-  res.sendFile(path.join(__dirname, "..", "build", "index.html"));
-});
-
 //* items INDEX
 router.get("/items", itemsController.index);
 
