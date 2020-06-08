@@ -15,12 +15,11 @@ app.use(express.json());
 
 //* serve staticlly the upload folder
 app.use("/uploads", express.static(path.resolve(__dirname, "..", "uploads")));
-app.use("/build", express.static(path.resolve(__dirname, "..", "build")));
 
 app.use(routes);
 
 app.use(errors());
 
-app.listen(parseInt(`${process.env.PORT}`), process.env.IP!, () =>
+app.listen(parseInt(`${process.env.PORT}`) || 3333, () =>
   console.log("Ecoleta started!")
 );
