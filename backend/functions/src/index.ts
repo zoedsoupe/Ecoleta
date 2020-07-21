@@ -2,6 +2,7 @@ import express from "express";
 import cors from "cors";
 import path from "path";
 import { errors } from "celebrate";
+import * as functions from "firebase-functions";
 
 import routes from "./routes";
 
@@ -14,12 +15,10 @@ app.use(cors());
 app.use(express.json());
 
 //* serve staticlly the upload folder
-app.use("/uploads", express.static(path.resolve(__dirname, "..", "uploads")));
+app.use("/uploads", express.static(path.resolve(__dirname, "uploads")));
 
 app.use(routes);
 
 app.use(errors());
 
-app.listen(parseInt(`${process.env.PORT}`) || 3333, () =>
-  console.log("Ecoleta started!")
-);
+export const ecoleta = functions.https.onRequest(app);
