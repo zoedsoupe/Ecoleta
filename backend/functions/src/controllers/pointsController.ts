@@ -1,5 +1,6 @@
 import { Request, Response } from "express";
 import knex from "../database/connection";
+
 class PointsControler {
   //* INDEX route - query points
   index = async (req: Request, res: Response) => {
@@ -55,24 +56,25 @@ class PointsControler {
 
   //* CREATE route - add a new point to the database
   create = async (req: Request, res: Response) => {
-    const { name, email, wpp, lat, long, city, uf, items } = req.body;
-
-    //* add a knex transaction to avoid database queries errors
-    const trx = await knex.transaction();
-
-    const point = {
-      img: req.file.filename,
-      name,
-      email,
-      wpp,
-      lat,
-      long,
-      city,
-      uf,
-    };
-
-    //* save point to the database
     try {
+      const { name, email, wpp, lat, long, city, uf, items } = req.body;
+
+      //* add a knex transaction to avoid database queries errors
+      const trx = await knex.transaction();
+
+      const point = {
+        img: req.file.filename,
+        name,
+        email,
+        wpp,
+        lat,
+        long,
+        city,
+        uf,
+      };
+
+      //* save point to the database
+
       const insertedIds = await trx("points").insert(point);
 
       const pointId = insertedIds[0];
@@ -98,6 +100,8 @@ class PointsControler {
       });
     } catch (err) {
       console.log(err.message);
+
+      return res.status(500).json(err.message);
     }
   };
 }
