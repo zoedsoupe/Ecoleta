@@ -1,20 +1,17 @@
 import express from "express";
-import multer from "multer";
 import { celebrate, Joi } from "celebrate";
 
-import multerConfig from "./config/multer";
+import { multerMid } from "./services/multer";
 
 //* import controllers
-import PointsController from "./controllers/pointsController";
-import ItemsController from "./controllers/itemsController";
+import { PointsController } from "./controllers/pointsController";
+import { ItemsController } from "./controllers/itemsController";
 
 const router = express.Router();
 
 //* new instances of controllers
 const pointController = new PointsController();
 const itemsController = new ItemsController();
-
-const upload = multer(multerConfig);
 
 //* ==========
 //*   ROUTES
@@ -26,7 +23,7 @@ router.get("/items", itemsController.index);
 //* points CREATE
 router.post(
   "/points",
-  upload.single("img"),
+  multerMid.single("img"),
   celebrate(
     {
       body: Joi.object().keys({

@@ -10,5 +10,4 @@ const connection = knex({
   useNullAsDefault: true,
 });
 
-
-export default connection;
+export { connection };
