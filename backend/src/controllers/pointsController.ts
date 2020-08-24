@@ -1,7 +1,8 @@
 import { Request, Response } from "express";
-import knex from "../database/connection";
+import { connection as knex } from "../database/connection";
+import { saveFile } from "../services/googleCloud";
 
-class PointsControler {
+export class PointsController {
   //* INDEX route - query points
   index = async (req: Request, res: Response) => {
     const { city, uf, items } = req.query;
@@ -28,7 +29,7 @@ class PointsControler {
       };
     });
 
-    return res.json(serializedPoints);
+    return res.status(200).json(serializedPoints);
   };
 
   //* SHOW route - show specific point information
@@ -51,7 +52,7 @@ class PointsControler {
       image_url: `http://192.168.0.105:3333/uploads/${point.img}`,
     };
 
-    return res.json({ point: serializedPoint, items });
+    return res.status(200).json({ point: serializedPoint, items });
   };
 
   //* CREATE route - add a new point to the database
@@ -62,8 +63,12 @@ class PointsControler {
       //* add a knex transaction to avoid database queries errors
       const trx = await knex.transaction();
 
+      if (!req.file) throw new Error("No file specified");
+
+      const img = saveFile(req.file);
+
       const point = {
-        img: req.file.filename,
+        img: img,
         name,
         email,
         wpp,
@@ -94,16 +99,14 @@ class PointsControler {
 
       await trx.commit();
 
-      return res.json({
+      return res.status(201).json({
         id: pointId,
         ...point,
       });
     } catch (err) {
       console.log(err.message);
 
-      return res.status(500).json(err.message);
+      return res.status(400).json(err.message);
     }
   };
 }
-
-export default PointsControler;

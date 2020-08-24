@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
-import knex from "../database/connection";
+import { connection as knex } from "../database/connection";
 
-class ItemsController {
+export class ItemsController {
   //* INDEX Route - list all items
   index = async (_: Request, res: Response) => {
     const items = await knex("items").select("*");
@@ -10,12 +10,10 @@ class ItemsController {
       return {
         id: item.id,
         title: item.title,
-        image_url: `http://192.168.0.105:3333/uploads/${item.img}`,
+        image_url: `http://${process.env.IP}/uploads/${item.img}`,
       };
     });
 
-    return res.json(serializedItems);
+    return res.status(200).json(serializedItems);
   };
 }
-
-export default ItemsController;
