@@ -42,4 +42,4 @@ const Dropzone: React.FC<Props> = ({ onFileUpload }) => {
   );
 };
 
-export default Dropzone;
+export { Dropzone };

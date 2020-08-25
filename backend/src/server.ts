@@ -2,7 +2,7 @@ import { App } from "./app";
 
 const app = new App().express;
 
-const port = 3333 || Number(`${process.env.PORT}`);
-const host = "localhost" || process.env.IP;
+const port = Number(`${process.env.PORT}`) || 3333;
+const host = process.env.IP || "localhost";
 
 app.listen(port, host, () => console.log("Ecoleta API started!"));
