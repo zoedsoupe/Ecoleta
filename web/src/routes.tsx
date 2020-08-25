@@ -1,15 +1,16 @@
 import React from "react";
-import { Route, BrowserRouter } from "react-router-dom";
+import { Route, Switch, BrowserRouter as Router } from "react-router-dom";
 
-import Home from "./pages/Home";
-import CreatePoint from "./pages/CreatePoint";
-const Routes = () => {
-  return (
-    <BrowserRouter>
+import { Home } from "./pages/Home";
+import { CreatePoint } from "./pages/CreatePoint";
+
+const Routes = () => (
+  <Router>
+    <Switch>
       <Route component={Home} path="/" exact />
       <Route component={CreatePoint} path="/create-point" />
-    </BrowserRouter>
-  );
-};
+    </Switch>
+  </Router>
+);
 
 export default Routes;

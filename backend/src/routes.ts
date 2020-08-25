@@ -48,4 +48,4 @@ router.get("/points", pointController.index);
 //* points SHOW
 router.get("/points/:id", pointController.show);
 
-export default router;
+export { router };

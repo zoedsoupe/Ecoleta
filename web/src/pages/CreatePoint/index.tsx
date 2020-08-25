@@ -1,4 +1,4 @@
-//* types, react hooks
+//* react hooks
 import React, { useState, useEffect, ChangeEvent, FormEvent } from "react";
 //* icons
 import { FiArrowLeft } from "react-icons/fi";
@@ -11,13 +11,13 @@ import { LeafletMouseEvent } from "leaflet";
 //* consume apis
 import axios from "axios";
 
-import Dropzone from "../../components/Dropzone";
-
-import "./CreatePoint.css";
+import { Dropzone } from "../../components/Dropzone";
 
 import api from "../../services/api";
 
 import logo from "../../assets/logo.svg";
+
+import "./CreatePoint.css";
 
 //* define types to Items
 interface Item {
@@ -259,8 +259,7 @@ const CreatePoint = () => {
                 name="uf"
                 id="uf"
                 onChange={handleSelectedUf}
-                value={selectedUf}
-              >
+                value={selectedUf}>
                 <option value="0">Selecione uma UF</option>
                 {ufs.map((uf) => (
                   <option key={uf} value={uf}>
@@ -276,8 +275,7 @@ const CreatePoint = () => {
                 name="city"
                 id="city"
                 value={selectedCity}
-                onChange={handleSelectedCity}
-              >
+                onChange={handleSelectedCity}>
                 <option value="0">Selecione uma cidade</option>
                 {cities.map((city) => (
                   <option key={city} value={city}>
@@ -300,8 +298,7 @@ const CreatePoint = () => {
               <li
                 key={item.id}
                 onClick={() => handleSelectedItems(item.id)}
-                className={selectedItems.includes(item.id) ? "selected" : ""}
-              >
+                className={selectedItems.includes(item.id) ? "selected" : ""}>
                 <img src={item.image_url} alt={item.title} />
                 <span>{item.title}</span>
               </li>
@@ -315,4 +312,4 @@ const CreatePoint = () => {
   );
 };
 
-export default CreatePoint;
+export { CreatePoint };
