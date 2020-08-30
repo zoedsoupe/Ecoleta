@@ -22,14 +22,7 @@ export class PointsController {
       .distinct()
       .select("points.*");
 
-    const serializedPoints = points.map((point) => {
-      return {
-        ...point,
-        image_url: `http://192.168.0.105:3333/uploads/${point.img}`,
-      };
-    });
-
-    return res.status(200).json(serializedPoints);
+    return res.status(200).json(points);
   };
 
   //* SHOW route - show specific point information
@@ -47,12 +40,7 @@ export class PointsController {
       .where("point_items.point_id", id)
       .select("items.title");
 
-    const serializedPoint = {
-      ...point,
-      image_url: `http://192.168.0.105:3333/uploads/${point.img}`,
-    };
-
-    return res.status(200).json({ point: serializedPoint, items });
+    return res.status(200).json({ point, items });
   };
 
   //* CREATE route - add a new point to the database
@@ -65,7 +53,7 @@ export class PointsController {
 
       if (!req.file) throw new Error("No file specified");
 
-      const img = saveFile(req.file);
+      const img = await saveFile(req.file);
 
       const point = {
         img: img,

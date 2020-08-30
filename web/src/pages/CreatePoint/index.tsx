@@ -13,7 +13,7 @@ import axios from "axios";
 
 import { Dropzone } from "../../components/Dropzone";
 
-import api from "../../services/api";
+import { api } from "../../services/api";
 
 import logo from "../../assets/logo.svg";
 
@@ -23,7 +23,7 @@ import "./CreatePoint.css";
 interface Item {
   id: number;
   title: string;
-  image_url: string;
+  img: string;
 }
 
 //* type to uf
@@ -74,7 +74,7 @@ const CreatePoint = () => {
 
   //* get all items from api and stores on items const
   useEffect(() => {
-    api.get("items").then((res) => setItems(res.data));
+    api.get<Item[]>("items").then(({ data }) => data && setItems(data));
   }, []);
 
   //* get all ufs from ibge api and stores on ufs const
@@ -261,11 +261,13 @@ const CreatePoint = () => {
                 onChange={handleSelectedUf}
                 value={selectedUf}>
                 <option value="0">Selecione uma UF</option>
-                {ufs.map((uf) => (
-                  <option key={uf} value={uf}>
-                    {uf}
-                  </option>
-                ))}
+                {ufs.length > 0
+                  ? ufs.map((uf) => (
+                      <option key={uf} value={uf}>
+                        {uf}
+                      </option>
+                    ))
+                  : null}
               </select>
             </div>
 
@@ -294,15 +296,19 @@ const CreatePoint = () => {
           </legend>
 
           <ul className="items-grid">
-            {items.map((item) => (
-              <li
-                key={item.id}
-                onClick={() => handleSelectedItems(item.id)}
-                className={selectedItems.includes(item.id) ? "selected" : ""}>
-                <img src={item.image_url} alt={item.title} />
-                <span>{item.title}</span>
-              </li>
-            ))}
+            {items.length > 0
+              ? items.map((item) => (
+                  <li
+                    key={item.id}
+                    onClick={() => handleSelectedItems(item.id)}
+                    className={
+                      selectedItems.includes(item.id) ? "selected" : ""
+                    }>
+                    <img src={item.img} alt={item.title} />
+                    <span>{item.title}</span>
+                  </li>
+                ))
+              : 0}
           </ul>
         </fieldset>
 
